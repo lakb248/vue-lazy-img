@@ -54,7 +54,7 @@ export default {
             hasListener = true;
             var timeout = -1;
             window.addEventListener('scroll', () => {
-                // function throttle
+                // function debouncing
                 if (timeout !== -1) {
                     clearTimeout(timeout);
                 }
