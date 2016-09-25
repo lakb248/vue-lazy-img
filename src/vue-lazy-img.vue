@@ -6,6 +6,7 @@
 
 // whether the scroll event listener has been added
 var hasListener = false;
+var elements = [];
 
 /**
  * load image async
@@ -50,24 +51,26 @@ export default {
     props: ['source', 'placeholder'],
     ready() {
         // only add one listener to the scroll event
-        if (!hasListener) {
-            hasListener = true;
-            var timeout = -1;
-            window.addEventListener('scroll', () => {
-                // function debouncing
-                if (timeout !== -1) {
-                    clearTimeout(timeout);
-                }
-                // get element in the screen and load images
-                timeout = setTimeout(() => {
-                    var elements = document.querySelectorAll('.v-lazy-image');
-                    loadImagesIfNeed(elements, this.source);
-                }, 300);
-            });
-        }
-        // load image oninit
-        loadImagesIfNeed([this.$el], this.source);
+        window.addEventListener('load', () => {
+            elements.push(this.$el);
+            if (!hasListener) {
+                hasListener = true;
+                var timeout = -1;
+                window.addEventListener('scroll', () => {
+                    // function debouncing
+                    if (timeout !== -1) {
+                        clearTimeout(timeout);
+                    }
+                    // get element in the screen and load images
+                    timeout = setTimeout(() => {
+                        loadImagesIfNeed(elements, this.source);
+                    }, 150);
+                });
+            }
+            // load image oninit
+            // loadImagesIfNeed([this.$el], this.source);
+            loadImagesIfNeed(elements, this.source);
+        });
     }
 };
 </script>
-

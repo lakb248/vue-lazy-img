@@ -3,11 +3,25 @@
     <head>
         <meta charset="utf-8">
         <title>Vue Component</title>
+        <style>
+            ul {
+                list-style: none;
+            }
+            li {
+                float: left;
+                margin: 50px;
+            }
+        </style>
     </head>
     <body>
         <div id="container">
-            <vue-lazy-img></vue-lazy-img>
+            <ul>
+                <li v-for="src in list" track-by="$index">
+                    <vue-lazy-img :source="src" placeholder="./src/asserts/placeholder.png" style="width:150px;"></vue-lazy-img>
+                </li>
+            </ul>
         </div>
         <script type="text/javascript" src="/build/build.js"></script>
+
     </body>
 </html>
