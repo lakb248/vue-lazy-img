@@ -26,7 +26,7 @@ var loadImage = function (element, source) {
 
 /**
  * load image that in the screen
- * @param  {Object} elements the img elements
+ * @param  {Array} elements the img elements
  * @param  {String} source   the source of the image
  */
 var loadImagesIfNeed = function (elements, source) {
@@ -47,30 +47,45 @@ var loadImagesIfNeed = function (elements, source) {
         }
     }
 };
+
+/**
+ * bin scroll event to async load image
+ * @param  {Array} elements the img elements
+ * @param  {String} source   the source of image
+ */
+var initScrollEvent = function (elements, source) {
+    if (!hasListener) {
+        hasListener = true;
+        var timeout = -1;
+        window.addEventListener('scroll', () => {
+            // function debouncing
+            if (timeout !== -1) {
+                clearTimeout(timeout);
+            }
+            // get element in the screen and load images
+            timeout = setTimeout(() => {
+                loadImagesIfNeed(elements, source);
+            }, 150);
+        });
+    }
+    // load image oninit
+    loadImagesIfNeed(elements, source);
+};
 export default {
     props: ['source', 'placeholder'],
     ready() {
+        elements.push(this.$el);
         // only add one listener to the scroll event
-        window.addEventListener('load', () => {
-            elements.push(this.$el);
-            if (!hasListener) {
-                hasListener = true;
-                var timeout = -1;
-                window.addEventListener('scroll', () => {
-                    // function debouncing
-                    if (timeout !== -1) {
-                        clearTimeout(timeout);
-                    }
-                    // get element in the screen and load images
-                    timeout = setTimeout(() => {
-                        loadImagesIfNeed(elements, this.source);
-                    }, 150);
-                });
-            }
-            // load image oninit
-            // loadImagesIfNeed([this.$el], this.source);
-            loadImagesIfNeed(elements, this.source);
-        });
+        if (elements.length > 1) {
+            return;
+        }
+        if (document.readyState === 'complete') {
+            initScrollEvent(elements, this.source);
+        } else {
+            window.addEventListener('load', () => {
+                initScrollEvent(elements, this.source);
+            });
+        }
     }
 };
 </script>
