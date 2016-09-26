@@ -3,7 +3,7 @@
 > A component for image lazy loading implement by vuejs
 
 ## Demo
-[Demo]
+[Demo](https://lakb248.github.io/vue-lazy-img/)
 
 ## Usage
 
