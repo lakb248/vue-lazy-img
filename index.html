@@ -21,7 +21,28 @@
                 </li>
             </ul>
         </div>
-        <script type="text/javascript" src="/build/build.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/vue/1.0.26/vue.min.js"></script>
+        <script type="text/javascript" src="./dist/vue-lazy-img.min.js"></script>
+        <script type="text/javascript">
+            var createSrc = function (length) {
+                var list = [];
+                for (var i = 0; i < length; i ++) {
+                    list.push('./src/asserts/github.png');
+                }
+                return list;
+            };
 
+            new Vue({
+                el: '#container',
+                components: {
+                    'vue-lazy-img': vueLazyImg
+                },
+                data() {
+                    return {
+                        list: createSrc(20)
+                    };
+                }
+            });
+        </script>
     </body>
 </html>
