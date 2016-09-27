@@ -1,4 +1,5 @@
 # vue-lazy-img
+[![Build Status](https://travis-ci.org/lakb248/vue-lazy-img.svg?branch=master)](https://travis-ci.org/lakb248/vue-lazy-img)
 
 > A component for image lazy loading implement by vuejs
 
