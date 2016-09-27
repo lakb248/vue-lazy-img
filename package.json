@@ -12,6 +12,13 @@
     "vue-component",
     "vuejs"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lakb248/vue-lazy-img.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lakb248/vue-lazy-img/issues"
+  },
   "author": "lakb248@gmail.com",
   "license": "ISC",
   "dependencies": {
