@@ -10,7 +10,7 @@
 ### Install
 
 ```bash
-npm install vue-lazy-img --save(publish later)
+npm install vue-lazy-img --save
 ```
 
 ### CommonJS
