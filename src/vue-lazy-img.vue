@@ -4,10 +4,6 @@
 
 <script>
 
-// whether the scroll event listener has been added
-var hasListener = false;
-var elements = [];
-
 /**
  * load image async
  * @param  {Object} element the img element
@@ -34,6 +30,9 @@ var loadImagesIfNeed = function (elements, source) {
     var length = elements.length;
     for(var i = 0; i < length; i ++) {
         var element = elements[i];
+        if (element == null) {
+            continue;
+        }
         // if the source of the element has been loaded,
         // skip the element
         if (+element.getAttribute('data-loaded') === 1) {
@@ -54,36 +53,29 @@ var loadImagesIfNeed = function (elements, source) {
  * @param  {String} source   the source of image
  */
 var initScrollEvent = function (elements, source) {
-    if (!hasListener) {
-        hasListener = true;
-        var timeout = -1;
-        window.addEventListener('scroll', () => {
-            // function debouncing
-            if (timeout !== -1) {
-                clearTimeout(timeout);
-            }
-            // get element in the screen and load images
-            timeout = setTimeout(() => {
-                loadImagesIfNeed(elements, source);
-            }, 150);
-        });
-    }
+    var timeout = -1;
+    window.addEventListener('scroll', () => {
+        // function debouncing
+        if (timeout !== -1) {
+            clearTimeout(timeout);
+        }
+        // get element in the screen and load images
+        timeout = setTimeout(() => {
+            loadImagesIfNeed(elements, source);
+        }, 150);
+    });
     // load image oninit
     loadImagesIfNeed(elements, source);
 };
 export default {
     props: ['source', 'placeholder'],
     ready() {
-        elements.push(this.$el);
         // only add one listener to the scroll event
-        if (elements.length > 1) {
-            return;
-        }
         if (document.readyState === 'complete') {
-            initScrollEvent(elements, this.source);
+            initScrollEvent([this.$el], this.source);
         } else {
             window.addEventListener('load', () => {
-                initScrollEvent(elements, this.source);
+                initScrollEvent([this.$el], this.source);
             });
         }
     }
