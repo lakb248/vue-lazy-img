@@ -10,14 +10,16 @@
  * @param  {String} source  the source of the image
  */
 var loadImage = function (element, source) {
-    var img = new Image();
-    img.onload = () => {
-        // set the src of the element
-        // and set the loaded flag to 1
-        element.src = source;
-        element.setAttribute('data-loaded', '1');
-    };
-    img.src = source;
+    // update the source of the image if the source is different
+    if (element.getAttribute('src') !== source) {
+        var img = new Image();
+        img.onload = () => {
+            // set the src of the element
+            // and set the loaded flag to 1
+            element.src = source;
+        };
+        img.src = source;
+    }
 };
 
 /**
@@ -31,11 +33,6 @@ var loadImagesIfNeed = function (elements, source) {
     for(var i = 0; i < length; i ++) {
         var element = elements[i];
         if (element == null) {
-            continue;
-        }
-        // if the source of the element has been loaded,
-        // skip the element
-        if (+element.getAttribute('data-loaded') === 1) {
             continue;
         }
         var height = element.offsetHeight;
@@ -78,6 +75,12 @@ export default {
                 initScrollEvent([this.$el], this.source);
             });
         }
+        // update the image if source change
+        this.$watch('source', (val) => {
+            if (val) {
+                loadImagesIfNeed([this.$el], val);
+            }
+        });
     }
 };
 </script>
