@@ -4,7 +4,7 @@
   "description": "A component for image lazy loading implements by vuejs",
   "main": "./dist/vue-lazy-img.min.js",
   "scripts": {
-    "dev": "webpack-dashboard -p 3001 -- webpack-dev-server --watch --progress --config webpack.dev.config.js --port 8888",
+    "dev": "webpack-dev-server --watch --progress --config webpack.dev.config.js --port 8888",
     "build": "webpack --progress --config webpack.prod.config.js",
     "ci": "npm run build"
   },

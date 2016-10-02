@@ -1,14 +1,19 @@
 import Vue from 'vue';
 import vueLazyImg from './src/vue-lazy-img.vue';
 
+var srcList = [
+    './src/asserts/github.png',
+    './src/asserts/wallpaper.jpg'
+];
+
+var getRandom = function (min, max) {
+    return min + Math.round(Math.random() * (max - min));
+};
+
 var createSrc = function (length) {
     var list = [];
     for (var i = 0; i < length; i ++) {
-        if (i % 2 === 0) {
-            list.push('./src/asserts/github.png');
-        } else {
-            list.push('https://avatars0.githubusercontent.com/u/5069587?v=3&s=466');
-        }
+        list.push(srcList[getRandom(0, 1)]);
     }
     return list;
 };
@@ -22,5 +27,13 @@ new Vue({
         return {
             list: createSrc(20)
         };
+    },
+    methods: {
+        refreshList() {
+            this.list = createSrc(this.list.length);
+        },
+        add() {
+            this.list.push(srcList[getRandom(0,1)]);
+        }
     }
 });

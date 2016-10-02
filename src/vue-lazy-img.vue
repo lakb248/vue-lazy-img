@@ -15,7 +15,6 @@ var loadImage = function (element, source) {
         var img = new Image();
         img.onload = () => {
             // set the src of the element
-            // and set the loaded flag to 1
             element.src = source;
         };
         img.src = source;
@@ -27,14 +26,16 @@ var loadImage = function (element, source) {
  * @param  {Array} elements the img elements
  * @param  {String} source   the source of the image
  */
-var loadImagesIfNeed = function (elements, source) {
+var loadImagesIfNeed = function (elementsObj) {
     var windowHeight = window.innerHeight || document.documentElement.clientHeight;
-    var length = elements.length;
+    var length = elementsObj.length;
     for(var i = 0; i < length; i ++) {
-        var element = elements[i];
+        var element = elementsObj[i].element;
+        var source = elementsObj[i].source;
         if (element == null) {
             continue;
         }
+
         var height = element.offsetHeight;
         var position = element.getBoundingClientRect();
         // whether the element is in the screen
@@ -49,7 +50,7 @@ var loadImagesIfNeed = function (elements, source) {
  * @param  {Array} elements the img elements
  * @param  {String} source   the source of image
  */
-var initScrollEvent = function (elements, source) {
+var initScrollEvent = function (elementsObj) {
     var timeout = -1;
     window.addEventListener('scroll', () => {
         // function debouncing
@@ -58,27 +59,37 @@ var initScrollEvent = function (elements, source) {
         }
         // get element in the screen and load images
         timeout = setTimeout(() => {
-            loadImagesIfNeed(elements, source);
-        }, 150);
+            loadImagesIfNeed(elementsObj);
+        }, 100);
     });
     // load image oninit
-    loadImagesIfNeed(elements, source);
+    loadImagesIfNeed(elementsObj);
 };
+
+var elementsObj = [];
+var index = 0;
+
+// only add one listener to the scroll event
+initScrollEvent(elementsObj);
+
 export default {
     props: ['source', 'placeholder'],
     ready() {
-        // only add one listener to the scroll event
-        if (document.readyState === 'complete') {
-            initScrollEvent([this.$el], this.source);
-        } else {
-            window.addEventListener('load', () => {
-                initScrollEvent([this.$el], this.source);
-            });
-        }
+        var curIndex = index ++;
+        elementsObj.push({
+            element: this.$el,
+            source: this.source
+        });
+        loadImagesIfNeed([elementsObj[curIndex]]);
         // update the image if source change
         this.$watch('source', (val) => {
             if (val) {
-                loadImagesIfNeed([this.$el], val);
+                var obj = elementsObj[curIndex];
+                obj.source = val;
+                if (obj.element != null) {
+                    obj.element.src = this.placeholder;
+                }
+                loadImagesIfNeed([elementsObj[curIndex]]);
             }
         });
     }
