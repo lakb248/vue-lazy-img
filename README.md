@@ -13,6 +13,11 @@
 ```bash
 npm install vue-lazy-img --save
 ```
+And, if you are using vue 2.0
+
+```bash
+npm install vue-lazy-img@next --save
+```
 
 ### CommonJS
 
