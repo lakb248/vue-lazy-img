@@ -1,6 +1,6 @@
 {
-  "name": "vue-lazy-img",
-  "version": "0.1.0",
+  "name": "istyle-vue-lazy-img",
+  "version": "2.0.0",
   "description": "A component for image lazy loading implements by vuejs",
   "main": "./dist/vue-lazy-img.min.js",
   "scripts": {
