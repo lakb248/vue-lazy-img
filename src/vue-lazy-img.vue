@@ -71,26 +71,27 @@ var index = 0;
 
 // only add one listener to the scroll event
 initScrollEvent(elementsObj);
-
 export default {
     props: ['source', 'placeholder'],
-    ready() {
-        var curIndex = index ++;
-        elementsObj.push({
-            element: this.$el,
-            source: this.source
-        });
-        loadImagesIfNeed([elementsObj[curIndex]]);
-        // update the image if source change
-        this.$watch('source', (val) => {
-            if (val) {
-                var obj = elementsObj[curIndex];
-                obj.source = val;
-                if (obj.element != null) {
-                    obj.element.src = this.placeholder;
+    mounted() {
+        this.$nextTick(() => {
+            var curIndex = index ++;
+            elementsObj.push({
+                element: this.$el,
+                source: this.source
+            });
+            loadImagesIfNeed([elementsObj[curIndex]]);
+            // update the image if source change
+            this.$watch('source', (val) => {
+                if (val) {
+                    var obj = elementsObj[curIndex];
+                    obj.source = val;
+                    if (obj.element != null) {
+                        obj.element.src = this.placeholder;
+                    }
+                    loadImagesIfNeed([elementsObj[curIndex]]);
                 }
-                loadImagesIfNeed([elementsObj[curIndex]]);
-            }
+            });
         });
     }
 };
