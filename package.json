@@ -14,10 +14,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/lakb248/vue-lazy-img.git"
+    "url": "git+https://github.com/istyle-inc/vue-lazy-img.git"
   },
   "bugs": {
-    "url": "https://github.com/lakb248/vue-lazy-img/issues"
+    "url": "https://github.com/istyle-inc/vue-lazy-img/issues"
   },
   "author": "lakb248@gmail.com",
   "license": "ISC",
